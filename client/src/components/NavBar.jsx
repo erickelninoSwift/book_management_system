@@ -1,10 +1,10 @@
 import React from "react";
-
+import { NavLink, Link } from "react-router-dom";
 const NavBar = () => {
   return (
     <header className="mb-2 px-4 shadow">
       <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
-        <a className="flex items-center text-2xl font-black" href="/">
+        <Link className="flex items-center text-2xl font-black" to="/">
           <span className="mr-2 text-3xl text-blue-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -21,8 +21,8 @@ const NavBar = () => {
               />
             </svg>
           </span>
-          <span>future</span>
-        </a>
+          <span>ISO</span>
+        </Link>
         <input className="peer hidden" type="checkbox" id="navbar-open" />
         <label
           className="absolute right-0 mt-1 cursor-pointer text-xl sm:hidden"
@@ -48,27 +48,27 @@ const NavBar = () => {
         >
           <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
             <li className="">
-              <a className="text-gray-600 hover:text-blue-600" href="#">
+              <Link className="text-gray-600 hover:text-blue-600" to="#">
                 Home
-              </a>
+              </Link>
             </li>
             <li className="">
-              <a className="text-gray-600 hover:text-blue-600" href="#">
+              <Link className="text-gray-600 hover:text-blue-600" to="#">
                 About
-              </a>
+              </Link>
             </li>
             <li className="">
-              <a className="text-gray-600 hover:text-blue-600" href="#">
+              <Link className="text-gray-600 hover:text-blue-600" to="#">
                 Contact
-              </a>
+              </Link>
             </li>
             <li className="mt-2 sm:mt-0">
-              <a
+              <Link
                 className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
-                href="#"
+                to="#"
               >
                 Login
-              </a>
+              </Link>
             </li>
           </ul>
         </nav>
