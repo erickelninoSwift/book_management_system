@@ -2,7 +2,6 @@
   "name": "book_store_management",
   "version": "1.0.0",
   "description": "mern stack application contact manager",
-  "main": "index.js",
   "scripts": {
     "client": "npm start --prefix client",
     "backend": "npm run server --prefix server",
