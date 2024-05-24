@@ -4,7 +4,7 @@ const NavBar = () => {
   return (
     <header className="mb-2 px-4 shadow">
       <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
-        <Link className="flex items-center text-2xl font-black" to="/">
+        <Link className="flex items-center text-2xl font-black" to={"/"}>
           <span className="mr-2 text-3xl text-blue-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -48,27 +48,27 @@ const NavBar = () => {
         >
           <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
             <li className="">
-              <Link className="text-gray-600 hover:text-blue-600" to="#">
+              <NavLink className="text-gray-600 hover:text-blue-600" to={"#"}>
                 Home
-              </Link>
+              </NavLink>
             </li>
             <li className="">
-              <Link className="text-gray-600 hover:text-blue-600" to="#">
+              <NavLink className="text-gray-600 hover:text-blue-600" to={"#"}>
                 About
-              </Link>
+              </NavLink>
             </li>
             <li className="">
-              <Link className="text-gray-600 hover:text-blue-600" to="#">
+              <NavLink className="text-gray-600 hover:text-blue-600" to={"#"}>
                 Contact
-              </Link>
+              </NavLink>
             </li>
             <li className="mt-2 sm:mt-0">
-              <Link
+              <NavLink
                 className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
-                to="#"
+                to={"#"}
               >
                 Login
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>
