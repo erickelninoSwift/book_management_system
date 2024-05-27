@@ -1,11 +1,23 @@
 const express = require("express");
 const dotenv = require("dotenv");
-dotenv.config();
+const cors = require("cors");
+const UserRoutesControllers = require("./routes/userRoute");
+dotenv.config({
+  path: "./.env",
+});
 const { connectDB } = require("./connect/mongoConnect");
 
 const PORT = process.env.PORT || 8080;
 
 const app = express();
+
+// Middlewares
+app.use(cors());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+// ======================
+
+app.use(UserRoutesControllers);
 
 const start = async () => {
   await connectDB(process.env.MONGOBD_URL)
