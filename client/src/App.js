@@ -3,6 +3,7 @@ import AppLayout from "./pages/AppLayout";
 import Home from "./pages/Home";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import About from "./pages/About";
+import Admin from "./pages/Admin";
 function App() {
   return (
     <Routes>
@@ -10,6 +11,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<AuthenticationPage />} />
+        <Route path="/admin" element={<Admin />} />
       </Route>
     </Routes>
   );
