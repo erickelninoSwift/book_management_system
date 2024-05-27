@@ -18,7 +18,7 @@ const Register = () => {
     setLogin(true);
   };
   return (
-    <div className="h-[700px] mt-2 flex flex-col items-center justify-center">
+    <div className="h-full mt-[72px] flex flex-col items-center justify-center">
       <div
         className="
           flex flex-col

@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <>
@@ -13,32 +13,32 @@ const Footer = () => {
             </p>
 
             <div className="flex mt-3 -mx-2 sm:mt-0">
-              <a
-                href="#"
+              <Link
+                to={"/"}
                 className="mx-2 text-sm text-black transition-colors duration-300 hover:text-black dark:hover:text-gray-300"
                 aria-label="Reddit"
               >
                 {" "}
-                Teams{" "}
-              </a>
+                Home{" "}
+              </Link>
 
-              <a
-                href="#"
+              <Link
+                to={"/about"}
                 className="mx-2 text-sm text-black transition-colors duration-300 hover:text-black dark:hover:text-gray-300"
                 aria-label="Reddit"
               >
                 {" "}
-                Privacy{" "}
-              </a>
+                About{" "}
+              </Link>
 
-              <a
-                href="#"
+              <Link
+                to={"/login"}
                 className="mx-2 text-sm text-gray-500 transition-colors duration-300 hover:text-gray-500 dark:hover:text-gray-300"
                 aria-label="Reddit"
               >
                 {" "}
-                Cookies{" "}
-              </a>
+                Login{" "}
+              </Link>
             </div>
           </div>
         </div>

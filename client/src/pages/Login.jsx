@@ -18,7 +18,7 @@ const Login = () => {
   };
   return (
     <>
-      <div className="h-[700px] mt-2 flex flex-col items-center justify-center">
+      <div className="max-h-fit mt-[5rem] flex flex-col items-center justify-center">
         <div
           className="
           flex flex-col
