@@ -3,7 +3,7 @@ import React from "react";
 const Home = () => {
   return (
     <>
-      <div className="my-10 mx-auto h-full flex w-full max-w-screen-lg flex-col rounded-2xl bg-slate-100 px-4">
+      <div className="my-10 mx-auto flex w-full max-w-screen-lg flex-col rounded-2xl bg-stone-100 px-4">
         <p className="mt-20 text-center sm:text-lg font-semibold text-lime-500">
           CONTACT MANAGEMENT SYSTEM
         </p>

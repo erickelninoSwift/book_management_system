@@ -1,24 +1,55 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
-import { validation } from "../utils/Validator";
+import { LoginValidation } from "../utils/LoginValidation";
+import axios from "axios";
+import { toast } from "react-toastify";
 const Login = () => {
   const { setLogin } = useContext(UserContext);
-  const [erros, setErros] = useState("");
+  const [erros, setErros] = useState({});
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  const [serversideError, setServerSideError] = useState([]);
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const myError = validation({ email, password });
-    setErros(myError);
+    const myError = LoginValidation({ email, password });
+    setErros(() => myError);
+    if (!erros.email && !erros.password) {
+      const options = {
+        url: "http://localhost:8080/login",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        data: {
+          email,
+          password,
+        },
+      };
+
+      axios
+        .post(options)
+        .then((response) => {
+          console.log(response);
+          return toast.success("Account was created", {
+            position: "top-center",
+            autoClose: 4000,
+          });
+        })
+        .catch((erro) => {
+          setServerSideError(erro);
+          return toast.error(`Failed to Login`, {
+            position: "top-center",
+            autoClose: 5000,
+          });
+        });
+    }
   };
-  const handleRegistration = (e) => {
-    e.preventDefault();
-    setLogin(false);
-  };
+
   return (
     <>
-      <div className="max-h-fit mt-[5rem] flex flex-col items-center justify-center">
+      <div className="h-full mt-[72px] flex flex-col items-center justify-center">
         <div
           className="
           flex flex-col
@@ -183,6 +214,11 @@ const Login = () => {
                     </svg>
                   </span>
                 </button>
+                {serversideError.length > 0 && (
+                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                    {serversideError[0]}
+                  </span>
+                )}
               </div>
             </form>
           </div>
@@ -204,7 +240,10 @@ const Login = () => {
               <button
                 href="#"
                 className="text-xs ml-2 text-black font-semibold"
-                onClick={(e) => handleRegistration(e)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  return setLogin(false);
+                }}
               >
                 Register here
               </button>

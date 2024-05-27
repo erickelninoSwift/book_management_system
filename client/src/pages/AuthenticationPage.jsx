@@ -6,7 +6,7 @@ const AuthenticationPage = () => {
   const { login } = useContext(UserContext);
   return (
     <>
-      <div className="max-h-fit">
+      <div className="h-[80vh]">
         {login && <Login />}
         {!login && <Register />}
       </div>

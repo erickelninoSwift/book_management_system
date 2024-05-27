@@ -1,24 +1,59 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { validation } from "../utils/Validator";
+import axios from "axios";
+import { toast } from "react-toastify";
 const Register = () => {
   const { setLogin } = useContext(UserContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
-  const [erros, setErros] = useState("");
+  const [erros, setErros] = useState({});
+  const [serversideError, setServerSideError] = useState([]);
   const handleRegisterUser = (e) => {
     e.preventDefault();
     const myError = validation({ name, email, password });
-    setErros(myError);
+    setErros(() => myError);
+    if (erros.name === "" && erros.email === "" && erros.password === "") {
+      const options = {
+        url: "http://localhost:8080/signin",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        data: {
+          name,
+          email,
+          password,
+        },
+      };
+
+      axios
+        .post(options)
+        .then((response) => {
+          console.log(response);
+          return toast.success("Account was created", {
+            position: "top-center",
+            autoClose: 4000,
+          });
+        })
+        .catch((erro) => {
+          setServerSideError(erro);
+          return toast.error(`Failed to Login`, {
+            position: "top-center",
+            autoClose: 5000,
+          });
+        });
+    }
   };
   const handleLogin = (e) => {
     e.preventDefault();
     setLogin(true);
   };
   return (
-    <div className="h-full mt-[72px] flex flex-col items-center justify-center">
+    <div className="h-full mt[72px] flex flex-col items-center justify-center">
       <div
         className="
           flex flex-col
@@ -233,6 +268,11 @@ const Register = () => {
                   </svg>
                 </span>
               </button>
+              {serversideError.length > 0 && (
+                <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                  {serversideError[0]}
+                </span>
+              )}
             </div>
           </form>
         </div>
