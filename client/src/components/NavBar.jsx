@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
+
 const NavBar = () => {
+  const { login } = useContext(UserContext);
   return (
     <header className="mb-2 px-4 shadow">
       <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -26,7 +29,7 @@ const NavBar = () => {
         <input className="peer hidden" type="checkbox" id="navbar-open" />
         <label
           className="absolute right-0 mt-1 cursor-pointer text-xl sm:hidden"
-          for="navbar-open"
+          htmlFor="navbar-open"
         >
           <span className="sr-only">Toggle Navigation</span>
           <svg
@@ -65,7 +68,7 @@ const NavBar = () => {
                 className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
                 to={"/login"}
               >
-                Login
+                {login ? "Login" : "Register"}
               </NavLink>
             </li>
           </ul>

@@ -1,11 +1,20 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 const Register = () => {
   const { setLogin } = useContext(UserContext);
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
+
   const handleRegisterUser = (e) => {
     e.preventDefault();
-    console.log("handle registration");
+    const user = {
+      name,
+      email,
+      password,
+    };
+    console.log(user);
   };
   const handleLogin = (e) => {
     e.preventDefault();
@@ -76,7 +85,9 @@ const Register = () => {
                     py-2
                     focus:outline-none focus:border-blue-400
                   "
+                  value={name}
                   placeholder="Enter your name"
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
             </div>
@@ -119,7 +130,9 @@ const Register = () => {
                     py-2
                     focus:outline-none focus:border-blue-400
                   "
+                  value={email}
                   placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
             </div>
@@ -165,6 +178,8 @@ const Register = () => {
                     focus:outline-none focus:border-blue-400
                   "
                   placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setpassword(e.target.value)}
                 />
               </div>
             </div>
