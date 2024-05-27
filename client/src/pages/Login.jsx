@@ -3,14 +3,14 @@ import { UserContext } from "../context/UserContext";
 import { validation } from "../utils/Validator";
 const Login = () => {
   const { setLogin } = useContext(UserContext);
-  const [errors, setErros] = useState(null);
+  const [erros, setErros] = useState("");
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-
-    console.log("login now");
+    const myError = validation({ email, password });
+    setErros(myError);
   };
   const handleRegistration = (e) => {
     e.preventDefault();
@@ -87,6 +87,11 @@ const Login = () => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
+                {erros.email && (
+                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                    {erros.email}
+                  </span>
+                )}
               </div>
               <div className="flex flex-col mb-6">
                 <label
@@ -134,6 +139,11 @@ const Login = () => {
                     onChange={(e) => setpassword(e.target.value)}
                   />
                 </div>
+                {erros.password && (
+                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                    {erros.password}
+                  </span>
+                )}
               </div>
 
               <div className="flex w-full">
