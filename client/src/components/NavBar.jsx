@@ -48,24 +48,22 @@ const NavBar = () => {
         >
           <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
             <li className="">
-              <NavLink className="text-gray-600 hover:text-blue-600" to={"#"}>
+              <NavLink className="text-gray-600 hover:text-black" to={"/"}>
                 Home
               </NavLink>
             </li>
             <li className="">
-              <NavLink className="text-gray-600 hover:text-blue-600" to={"#"}>
+              <NavLink
+                className="text-gray-600 hover:hover:text-black"
+                to={"/about"}
+              >
                 About
-              </NavLink>
-            </li>
-            <li className="">
-              <NavLink className="text-gray-600 hover:text-blue-600" to={"#"}>
-                Contact
               </NavLink>
             </li>
             <li className="mt-2 sm:mt-0">
               <NavLink
-                className="rounded-xl border-2 border-blue-600 px-6 py-2 font-medium text-blue-600 hover:bg-blue-600 hover:text-white"
-                to={"#"}
+                className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
+                to={"/login"}
               >
                 Login
               </NavLink>

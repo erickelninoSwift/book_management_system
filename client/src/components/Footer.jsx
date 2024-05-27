@@ -2,35 +2,48 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="relative mt-20 bg-gray-900 px-4 pt-20">
-      <div className="absolute -top-10 left-1/2 h-16 w-16 -translate-x-1/2 rounded-xl border-4 border-sky-500 bg-white p-2">
-        <img
-          className="h-full object-contain"
-          src="/images/logo-circle.png"
-          alt=""
-        />
-      </div>
-      <nav
-        aria-label="Footer Navigation"
-        className="mx-auto mb-10 flex max-w-lg flex-col gap-10 text-center sm:flex-row sm:text-left"
-      >
-        <a href="#" className="font-medium text-white">
-          Demo
-        </a>
-        <a href="#" className="font-medium text-white">
-          Support
-        </a>
-        <a href="#" className="font-medium text-white">
-          Privacy Policy
-        </a>
-        <a href="#" className="font-medium text-white">
-          Terms & Conditions
-        </a>
-      </nav>
-      <p className="py-10 text-center text-gray-300">
-        © {new Date().getFullYear()} Eriik Elnino | All Rights Reserved
-      </p>
-    </footer>
+    <>
+      <footer className="bg-white light:bg-gray-900 w-[1270px] mx-auto">
+        <div className="container px-6 py-8 mx-auto">
+          <hr className="my-10 border-gray-200 dark:border-gray-700" />
+
+          <div className="flex flex-col items-center sm:flex-row sm:justify-between">
+            <p className="text-sm text-black">
+              © Copyright {new Date().getFullYear()}. All Rights Reserved.
+            </p>
+
+            <div className="flex mt-3 -mx-2 sm:mt-0">
+              <a
+                href="#"
+                className="mx-2 text-sm text-black transition-colors duration-300 hover:text-black dark:hover:text-gray-300"
+                aria-label="Reddit"
+              >
+                {" "}
+                Teams{" "}
+              </a>
+
+              <a
+                href="#"
+                className="mx-2 text-sm text-black transition-colors duration-300 hover:text-black dark:hover:text-gray-300"
+                aria-label="Reddit"
+              >
+                {" "}
+                Privacy{" "}
+              </a>
+
+              <a
+                href="#"
+                className="mx-2 text-sm text-gray-500 transition-colors duration-300 hover:text-gray-500 dark:hover:text-gray-300"
+                aria-label="Reddit"
+              >
+                {" "}
+                Cookies{" "}
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </>
   );
 };
 
