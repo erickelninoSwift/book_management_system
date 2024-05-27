@@ -1,7 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { validation } from "../utils/Validator";
 const Login = () => {
   const { setLogin } = useContext(UserContext);
+  const [errors, setErros] = useState(null);
+  const [email, setEmail] = useState("");
+  const [password, setpassword] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -79,6 +83,8 @@ const Login = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -124,6 +130,8 @@ const Login = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)}
                   />
                 </div>
               </div>

@@ -5,14 +5,14 @@ export const UserContext = createContext({
   token: null,
   setCurrentUser: () => null,
   setToken: () => null,
-  login: false,
+  login: true,
   setLogin: () => null,
 });
 
 export const UserContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [token, setToken] = useState(null);
-  const [login, setLogin] = useState(false);
+  const [login, setLogin] = useState(true);
   const value = {
     user: currentUser,
     setCurrentUser,

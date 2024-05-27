@@ -1,20 +1,17 @@
 import React, { useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
+import { validation } from "../utils/Validator";
 const Register = () => {
   const { setLogin } = useContext(UserContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
-
+  const [erros, setErros] = useState("");
   const handleRegisterUser = (e) => {
     e.preventDefault();
-    const user = {
-      name,
-      email,
-      password,
-    };
-    console.log(user);
+    const myError = validation({ name, email, password });
+    setErros(myError);
   };
   const handleLogin = (e) => {
     e.preventDefault();
@@ -71,9 +68,9 @@ const Register = () => {
                 </div>
 
                 <input
-                  id="email"
-                  type="email"
-                  name="email"
+                  id="name"
+                  type="text"
+                  name="name"
                   className="
                     text-sm
                     placeholder-gray-500
@@ -90,6 +87,11 @@ const Register = () => {
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
+              {erros.name && (
+                <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                  {erros.name}
+                </span>
+              )}
             </div>
             <div className="flex flex-col mb-5">
               <label
@@ -135,6 +137,11 @@ const Register = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
+              {erros.email && (
+                <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                  {erros.email}
+                </span>
+              )}
             </div>
             <div className="flex flex-col mb-6">
               <label
@@ -182,6 +189,11 @@ const Register = () => {
                   onChange={(e) => setpassword(e.target.value)}
                 />
               </div>
+              {erros.password && (
+                <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                  {erros.password}
+                </span>
+              )}
             </div>
 
             <div className="flex w-full">
