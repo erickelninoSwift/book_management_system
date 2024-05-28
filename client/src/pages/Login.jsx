@@ -15,33 +15,20 @@ const Login = () => {
     const myError = LoginValidation({ email, password });
     setErros(() => myError);
     if (!erros.email && !erros.password) {
-      const options = {
-        url: "http://localhost:8080/login",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json;charset=UTF-8",
-        },
-        data: {
-          email,
-          password,
-        },
-      };
-
       axios
-        .post(options)
+        .post("http://localhost:8080/login", { email, password })
         .then((response) => {
           console.log(response);
           return toast.success("Account was created", {
             position: "top-center",
-            autoClose: 4000,
+            autoClose: 2000,
           });
         })
         .catch((erro) => {
           setServerSideError(erro);
           return toast.error(`Failed to Login`, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 3000,
           });
         });
     }

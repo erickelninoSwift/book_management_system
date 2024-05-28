@@ -11,39 +11,24 @@ const Register = () => {
   const [password, setpassword] = useState("");
   const [erros, setErros] = useState({});
   const [serversideError, setServerSideError] = useState([]);
-  const handleRegisterUser = (e) => {
+  const handleRegisterUser = async (e) => {
     e.preventDefault();
     const myError = validation({ name, email, password });
-    setErros(() => myError);
-    if (erros.name === "" && erros.email === "" && erros.password === "") {
-      const options = {
-        url: "http://localhost:8080/signin",
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json;charset=UTF-8",
-        },
-        data: {
-          name,
-          email,
-          password,
-        },
-      };
-
-      axios
-        .post(options)
+    setErros(myError);
+    if (!erros.name && !erros.email && !erros.password) {
+      await axios
+        .post("http://localhost:8080/signup", { name, email, password })
         .then((response) => {
           console.log(response);
           return toast.success("Account was created", {
             position: "top-center",
-            autoClose: 4000,
+            autoClose: 2000,
           });
         })
         .catch((erro) => {
-          setServerSideError(erro);
-          return toast.error(`Failed to Login`, {
+          return toast.error(`${erro.message}`, {
             position: "top-center",
-            autoClose: 5000,
+            autoClose: 3000,
           });
         });
     }
