@@ -3,7 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  const { login } = useContext(UserContext);
+  const { login, user } = useContext(UserContext);
   return (
     <header className="mb-2 px-4 shadow">
       <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -52,7 +52,7 @@ const NavBar = () => {
           <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
             <li className="">
               <NavLink className="text-gray-600 hover:text-black" to={"/"}>
-                Home
+                {user ? "Dashboard" : "Home"}
               </NavLink>
             </li>
             <li className="">
@@ -64,12 +64,23 @@ const NavBar = () => {
               </NavLink>
             </li>
             <li className="mt-2 sm:mt-0">
-              <NavLink
-                className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
-                to={"/login"}
-              >
-                {login ? "Login" : "Register"}
-              </NavLink>
+              {!user && (
+                <NavLink
+                  className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
+                  to={"/login"}
+                >
+                  {login ? "Login" : "Register"}
+                </NavLink>
+              )}
+
+              {user && (
+                <NavLink
+                  className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
+                  to={"/login"}
+                >
+                  Logout
+                </NavLink>
+              )}
             </li>
           </ul>
         </nav>

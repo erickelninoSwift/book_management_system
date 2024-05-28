@@ -21,6 +21,7 @@ export const UserContextProvider = ({ children }) => {
     login,
     setLogin,
   };
-
+  console.log(token);
+  console.log(currentUser);
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };

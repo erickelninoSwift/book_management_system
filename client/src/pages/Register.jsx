@@ -4,7 +4,7 @@ import { validation } from "../utils/Validator";
 import axios from "axios";
 import { toast } from "react-toastify";
 const Register = () => {
-  const { setLogin } = useContext(UserContext);
+  const { setLogin, setToken, setCurrentUser } = useContext(UserContext);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +19,14 @@ const Register = () => {
       await axios
         .post("http://localhost:8080/signup", { name, email, password })
         .then((response) => {
-          console.log(response);
+          const { email, token } = response.data;
+          setToken(token);
+          setCurrentUser(email);
+          console.log(token);
+          setEmail("");
+          setName("");
+          setpassword("");
+          setErros({});
           return toast.success("Account was created", {
             position: "top-center",
             autoClose: 2000,
@@ -38,7 +45,7 @@ const Register = () => {
     setLogin(true);
   };
   return (
-    <div className="h-full mt[72px] flex flex-col items-center justify-center">
+    <div className="h-full my-[80px] flex flex-col items-center justify-center">
       <div
         className="
           flex flex-col
@@ -54,7 +61,7 @@ const Register = () => {
           max-w-md
         "
       >
-        <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">
+        <div className="font-medium  self-center text-xl sm:text-3xl text-gray-800">
           Join us Now
         </div>
         <div className="mt-4 self-center text-xl sm:text-sm text-gray-800">
