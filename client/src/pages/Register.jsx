@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
-  const { setLogin, setToken, setCurrentUser, token, user, setMyUser } =
+  const { setLogin, token, user, setMyUser, setCookie } =
     useContext(UserContext);
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -21,11 +21,11 @@ const Register = () => {
       await axios
         .post("http://localhost:8080/signup", { name, email, password })
         .then((response) => {
-          const { email, token, createUser, success } = response.data;
+          const { token, createUser, success } = response.data;
           if (success) {
-            setToken(token);
-            setCurrentUser(email);
             setServerSideError(null);
+            setCookie("User", createUser.name);
+            setCookie("Token", token);
             setEmail("");
             setName("");
             setpassword("");

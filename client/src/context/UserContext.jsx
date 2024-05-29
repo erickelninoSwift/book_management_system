@@ -1,5 +1,5 @@
 import { createContext, useState } from "react";
-
+import { useCookies } from "react-cookie";
 export const UserContext = createContext({
   user: null,
   token: null,
@@ -9,11 +9,15 @@ export const UserContext = createContext({
   setLogin: () => null,
   myUser: null,
   setMyUser: () => null,
+  cookies: null,
+  setCookie: () => null,
+  removeCookie: () => null,
 });
 
 export const UserContextProvider = ({ children }) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [cookies, setCookie, removeCookie] = useCookies(null);
+  const [currentUser, setCurrentUser] = useState(cookies.User);
+  const [token, setToken] = useState(cookies.Token);
   const [login, setLogin] = useState(true);
   const [myUser, setMyUser] = useState(null);
   const value = {
@@ -25,6 +29,9 @@ export const UserContextProvider = ({ children }) => {
     setLogin,
     myUser,
     setMyUser,
+    cookies,
+    setCookie,
+    removeCookie,
   };
   console.log(token);
   console.log(currentUser);

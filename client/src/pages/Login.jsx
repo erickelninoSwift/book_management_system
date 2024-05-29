@@ -4,8 +4,9 @@ import { LoginValidation } from "../utils/LoginValidation";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 const Login = () => {
-  const { setLogin, setCurrentUser, setToken, token, user, setMyUser } =
+  const { setLogin, token, user, setMyUser, setCookie } =
     useContext(UserContext);
   const navigate = useNavigate();
   const [erros, setErros] = useState({});
@@ -21,13 +22,14 @@ const Login = () => {
       await axios
         .post("http://localhost:8080/login", { email, password })
         .then((response) => {
-          const { detail, email, token, success, selectedUser } = response.data;
+          const { detail, token, success, selectedUser } = response.data;
           if (detail) {
             return setServerSideError(detail);
           }
           if (success) {
-            setCurrentUser(email);
-            setToken(token);
+            setCookie("User", selectedUser.name);
+            setCookie("Token", token);
+
             setErros({});
             setServerSideError(null);
             setEmail("");
