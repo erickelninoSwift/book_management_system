@@ -33,11 +33,12 @@ const LoginController = async (request, response) => {
     const token = jwt.sign({ email, password }, "email&&Password=right", {
       expiresIn: "3h",
     });
-
+    selectedUser.password = undefined;
     return response.status(200).json({
       success: true,
       email,
       token,
+      selectedUser,
     });
     //  User was found
     //    ====================

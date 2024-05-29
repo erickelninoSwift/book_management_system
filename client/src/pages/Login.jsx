@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const { setLogin, setCurrentUser, setToken, token, user } =
+  const { setLogin, setCurrentUser, setToken, token, user, setMyUser } =
     useContext(UserContext);
   const navigate = useNavigate();
   const [erros, setErros] = useState({});
@@ -21,7 +21,7 @@ const Login = () => {
       await axios
         .post("http://localhost:8080/login", { email, password })
         .then((response) => {
-          const { detail, email, token, success } = response.data;
+          const { detail, email, token, success, selectedUser } = response.data;
           if (detail) {
             return setServerSideError(detail);
           }
@@ -32,7 +32,7 @@ const Login = () => {
             setServerSideError(null);
             setEmail("");
             setpassword("");
-
+            setMyUser(selectedUser);
             toast.success("Logged in with success", {
               position: "top-center",
               autoClose: 2000,

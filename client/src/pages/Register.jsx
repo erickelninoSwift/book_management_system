@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
-  const { setLogin, setToken, setCurrentUser, token, user } =
+  const { setLogin, setToken, setCurrentUser, token, user, setMyUser } =
     useContext(UserContext);
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -30,7 +30,7 @@ const Register = () => {
             setName("");
             setpassword("");
             setErros({});
-
+            setMyUser(createUser);
             toast.success("Account was created", {
               position: "top-center",
               autoClose: 2000,
