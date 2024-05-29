@@ -10,16 +10,43 @@ const hashPassword = (password) => {
 };
 const LoginController = async (request, response) => {
   const { email, password } = request.body;
+  if (!email || !password) {
+    return response.json({
+      detail: "Please make sure email / password is provided",
+    });
+  }
   try {
+    const selectedUser = await UserModel.findOne({ email });
+    if (!selectedUser) {
+      return response.json({
+        detail: `email : ${email} is not registered`,
+      });
+    }
+    const currentPassword = selectedUser.password;
+    const checkPassword = bcrypt.compareSync(password, currentPassword);
+
+    if (!checkPassword) {
+      return response.json({
+        detail: "Please provide right password",
+      });
+    }
+    const token = jwt.sign({ email, password }, "email&&Password=right", {
+      expiresIn: "3h",
+    });
+
+    return response.status(200).json({
+      success: true,
+      email,
+      token,
+    });
+    //  User was found
+    //    ====================
+    return response.json({ message: "success" });
   } catch (error) {
     response.json({
       message: "failed to login",
     });
   }
-  response.json({
-    email,
-    password,
-  });
 };
 
 const SignInController = async (request, response) => {
@@ -44,9 +71,14 @@ const SignInController = async (request, response) => {
       const token = jwt.sign({ name, email }, "email&passWord", {
         expiresIn: "1h",
       });
+      createUser._doc.password = null;
+
+      console.log(createUser);
       return response.json({
+        success: true,
         email,
         token,
+        createUser,
       });
     })
     .catch((erroMongo) => {

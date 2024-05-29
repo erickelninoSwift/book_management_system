@@ -3,7 +3,13 @@ import { NavLink, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  const { login, user } = useContext(UserContext);
+  const { login, user, token, setToken, setCurrentUser } =
+    useContext(UserContext);
+
+  const handleLogout = () => {
+    setToken(null);
+    setCurrentUser(null);
+  };
   return (
     <header className="mb-2 px-4 shadow">
       <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
@@ -64,7 +70,7 @@ const NavBar = () => {
               </NavLink>
             </li>
             <li className="mt-2 sm:mt-0">
-              {!user && (
+              {!user && !token && (
                 <NavLink
                   className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
                   to={"/login"}
@@ -73,10 +79,11 @@ const NavBar = () => {
                 </NavLink>
               )}
 
-              {user && (
+              {user && token && (
                 <NavLink
                   className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
                   to={"/login"}
+                  onClick={() => handleLogout()}
                 >
                   Logout
                 </NavLink>

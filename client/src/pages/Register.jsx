@@ -3,14 +3,16 @@ import { UserContext } from "../context/UserContext";
 import { validation } from "../utils/Validator";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const Register = () => {
-  const { setLogin, setToken, setCurrentUser } = useContext(UserContext);
-
+  const { setLogin, setToken, setCurrentUser, token, user } =
+    useContext(UserContext);
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [erros, setErros] = useState({});
-  const [serversideError, setServerSideError] = useState([]);
+  const [serversideError, setServerSideError] = useState(null);
   const handleRegisterUser = async (e) => {
     e.preventDefault();
     const myError = validation({ name, email, password });
@@ -19,18 +21,22 @@ const Register = () => {
       await axios
         .post("http://localhost:8080/signup", { name, email, password })
         .then((response) => {
-          const { email, token } = response.data;
-          setToken(token);
-          setCurrentUser(email);
-          console.log(token);
-          setEmail("");
-          setName("");
-          setpassword("");
-          setErros({});
-          return toast.success("Account was created", {
-            position: "top-center",
-            autoClose: 2000,
-          });
+          const { email, token, createUser, success } = response.data;
+          if (success) {
+            setToken(token);
+            setCurrentUser(email);
+            setServerSideError(null);
+            setEmail("");
+            setName("");
+            setpassword("");
+            setErros({});
+
+            toast.success("Account was created", {
+              position: "top-center",
+              autoClose: 2000,
+            });
+            navigate("/");
+          }
         })
         .catch((erro) => {
           return toast.error(`${erro.message}`, {
@@ -98,6 +104,7 @@ const Register = () => {
                   id="name"
                   type="text"
                   name="name"
+                  disabled={user && token ? true : false}
                   className="
                     text-sm
                     placeholder-gray-500
@@ -147,6 +154,7 @@ const Register = () => {
                 <input
                   id="email"
                   type="email"
+                  disabled={user && token ? true : false}
                   name="email"
                   className="
                     text-sm
@@ -200,6 +208,7 @@ const Register = () => {
                   id="password"
                   type="password"
                   name="password"
+                  disabled={user && token ? true : false}
                   className="
                     text-sm
                     placeholder-gray-500
@@ -226,6 +235,7 @@ const Register = () => {
             <div className="flex w-full">
               <button
                 type="submit"
+                disabled={user && token ? true : false}
                 className="
                   flex
                   mt-2
@@ -260,14 +270,14 @@ const Register = () => {
                   </svg>
                 </span>
               </button>
-              {serversideError.length > 0 && (
-                <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
-                  {serversideError[0]}
-                </span>
-              )}
             </div>
           </form>
         </div>
+        {serversideError && (
+          <span className="text-[12px] mt-5 p-2 text-red-600 bg-red-100 rounded-md ">
+            {serversideError}
+          </span>
+        )}
       </div>
       <div className="flex justify-center items-center mt-6">
         <a

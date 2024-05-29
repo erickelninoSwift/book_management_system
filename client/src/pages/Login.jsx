@@ -3,30 +3,46 @@ import { UserContext } from "../context/UserContext";
 import { LoginValidation } from "../utils/LoginValidation";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
-  const { setLogin } = useContext(UserContext);
+  const { setLogin, setCurrentUser, setToken, token, user } =
+    useContext(UserContext);
+  const navigate = useNavigate();
   const [erros, setErros] = useState({});
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
-  const [serversideError, setServerSideError] = useState([]);
+  const [serversideError, setServerSideError] = useState(null);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const myError = LoginValidation({ email, password });
-    setErros(() => myError);
-    if (!erros.email && !erros.password) {
-      axios
+    setErros(myError);
+    if (!erros.email && !erros.password && email && password) {
+      await axios
         .post("http://localhost:8080/login", { email, password })
         .then((response) => {
-          console.log(response);
-          return toast.success("Account was created", {
-            position: "top-center",
-            autoClose: 2000,
-          });
+          const { detail, email, token, success } = response.data;
+          if (detail) {
+            return setServerSideError(detail);
+          }
+          if (success) {
+            setCurrentUser(email);
+            setToken(token);
+            setErros({});
+            setServerSideError(null);
+            setEmail("");
+            setpassword("");
+
+            toast.success("Logged in with success", {
+              position: "top-center",
+              autoClose: 2000,
+            });
+            navigate("/");
+          }
         })
         .catch((erro) => {
-          setServerSideError(erro);
-          return toast.error(`Failed to Login`, {
+          // setServerSideError(erro);
+          toast.error(`${erro}`, {
             position: "top-center",
             autoClose: 3000,
           });
@@ -89,6 +105,7 @@ const Login = () => {
                     id="email"
                     type="email"
                     name="email"
+                    disabled={user && token ? true : false}
                     className="
                     text-sm
                     placeholder-gray-500
@@ -141,6 +158,7 @@ const Login = () => {
                     id="password"
                     type="password"
                     name="password"
+                    disabled={user && token ? true : false}
                     className="
                     text-sm
                     placeholder-gray-500
@@ -167,6 +185,7 @@ const Login = () => {
               <div className="flex w-full">
                 <button
                   type="submit"
+                  disabled={user && token ? true : false}
                   className="
                   flex
                   mt-2
@@ -201,14 +220,14 @@ const Login = () => {
                     </svg>
                   </span>
                 </button>
-                {serversideError.length > 0 && (
-                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
-                    {serversideError[0]}
-                  </span>
-                )}
               </div>
             </form>
           </div>
+          {serversideError && (
+            <span className="text-[12px] mt-5 p-2 text-red-600 bg-red-100 rounded-md ">
+              {serversideError}
+            </span>
+          )}
         </div>
         <div className="flex justify-center items-center mt-6">
           <a
