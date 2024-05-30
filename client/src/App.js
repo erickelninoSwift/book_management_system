@@ -8,13 +8,17 @@ import { useContext } from "react";
 import { UserContext } from "./context/UserContext";
 import { ToastContainer } from "react-toastify";
 function App() {
-  const { token, user } = useContext(UserContext);
+  const { token, chosenUser } = useContext(UserContext);
+  const AuthToken = token;
   return (
     <>
       <ToastContainer />
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          <Route index element={user && token ? <Admin /> : <Home />} />
+          <Route
+            index
+            element={AuthToken || chosenUser ? <Admin /> : <Home />}
+          />
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<AuthenticationPage />} />
         </Route>

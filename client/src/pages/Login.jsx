@@ -27,18 +27,19 @@ const Login = () => {
             return setServerSideError(detail);
           }
           if (success) {
+            setMyUser(selectedUser);
             setCookie("User", selectedUser.name);
             setCookie("Token", token);
-
             setErros({});
             setServerSideError(null);
             setEmail("");
             setpassword("");
-            setMyUser(selectedUser);
+
             toast.success("Logged in with success", {
               position: "top-center",
               autoClose: 2000,
             });
+
             navigate("/");
           }
         })

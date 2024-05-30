@@ -5,8 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
-  const { setLogin, token, user, setMyUser, setCookie } =
-    useContext(UserContext);
+  const { setLogin, token, setMyUser, setCookie } = useContext(UserContext);
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -104,7 +103,7 @@ const Register = () => {
                   id="name"
                   type="text"
                   name="name"
-                  disabled={user && token ? true : false}
+                  disabled={token ? true : false}
                   className="
                     text-sm
                     placeholder-gray-500
@@ -154,7 +153,7 @@ const Register = () => {
                 <input
                   id="email"
                   type="email"
-                  disabled={user && token ? true : false}
+                  disabled={token ? true : false}
                   name="email"
                   className="
                     text-sm
@@ -208,7 +207,7 @@ const Register = () => {
                   id="password"
                   type="password"
                   name="password"
-                  disabled={user && token ? true : false}
+                  disabled={token ? true : false}
                   className="
                     text-sm
                     placeholder-gray-500
@@ -235,7 +234,7 @@ const Register = () => {
             <div className="flex w-full">
               <button
                 type="submit"
-                disabled={user && token ? true : false}
+                disabled={token ? true : false}
                 className="
                   flex
                   mt-2

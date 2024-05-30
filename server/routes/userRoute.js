@@ -2,7 +2,9 @@ const express = require("express");
 const {
   LoginController,
   SignInController,
+  AuthController,
 } = require("../controllers/userControllers");
+const { VerifyCurrentUser } = require("../middleware/VerifyUser");
 const validator = require("express-validator");
 
 const router = express.Router();
@@ -48,5 +50,7 @@ router.post(
   ],
   SignInController
 );
+
+router.get("/verify", VerifyCurrentUser, AuthController);
 
 module.exports = router;

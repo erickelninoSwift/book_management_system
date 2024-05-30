@@ -2,6 +2,7 @@ const UserModel = require("../model/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+require("dotenv").config();
 
 const hashPassword = (password) => {
   const salt = bcrypt.genSaltSync(saltRounds);
@@ -24,15 +25,19 @@ const LoginController = async (request, response) => {
     }
     const currentPassword = selectedUser.password;
     const checkPassword = bcrypt.compareSync(password, currentPassword);
-
+    const selectedUserID = selectedUser._id;
     if (!checkPassword) {
       return response.json({
         detail: "Please provide right password",
       });
     }
-    const token = jwt.sign({ email, password }, "email&&Password=right", {
-      expiresIn: "3h",
-    });
+    const token = jwt.sign(
+      { selectedUserID, email, password },
+      process.env.SECRET_KEY,
+      {
+        expiresIn: "3h",
+      }
+    );
     selectedUser.password = undefined;
     return response.status(200).json({
       success: true,
@@ -40,9 +45,6 @@ const LoginController = async (request, response) => {
       token,
       selectedUser,
     });
-    //  User was found
-    //    ====================
-    return response.json({ message: "success" });
   } catch (error) {
     response.json({
       message: "failed to login",
@@ -69,9 +71,14 @@ const SignInController = async (request, response) => {
   await createUser
     .save()
     .then(() => {
-      const token = jwt.sign({ name, email }, "email&passWord", {
-        expiresIn: "1h",
-      });
+      const selectedUserID = createUser._doc._id;
+      const token = jwt.sign(
+        { selectedUserID, name, email },
+        process.env.SECRET_KEY,
+        {
+          expiresIn: "3h",
+        }
+      );
       createUser._doc.password = null;
 
       console.log(createUser);
@@ -89,4 +96,11 @@ const SignInController = async (request, response) => {
     });
 };
 
-module.exports = { LoginController, SignInController };
+const AuthController = async (request, response) => {
+  return response.status(200).json({
+    success: true,
+    user: request.user,
+  });
+};
+
+module.exports = { LoginController, SignInController, AuthController };

@@ -3,11 +3,12 @@ import { NavLink, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  const { login, user, token, setToken, setCurrentUser } =
+  const { login, user, setToken, cookies, setCurrentUser, removeCookie } =
     useContext(UserContext);
-
+  const AuthToken = cookies.Token;
   const handleLogout = () => {
-    setToken(null);
+    removeCookie("Token");
+    removeCookie("User");
     setCurrentUser(null);
   };
   return (
@@ -58,7 +59,7 @@ const NavBar = () => {
           <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
             <li className="">
               <NavLink className="text-gray-600 hover:text-black" to={"/"}>
-                {user ? "Dashboard" : "Home"}
+                {AuthToken ? "Dashboard" : "Home"}
               </NavLink>
             </li>
             <li className="">
@@ -70,7 +71,7 @@ const NavBar = () => {
               </NavLink>
             </li>
             <li className="mt-2 sm:mt-0">
-              {!user && !token && (
+              {!AuthToken && (
                 <NavLink
                   className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
                   to={"/login"}
@@ -79,7 +80,7 @@ const NavBar = () => {
                 </NavLink>
               )}
 
-              {user && token && (
+              {AuthToken && (
                 <NavLink
                   className="rounded-xl border-2 border-black px-6 py-2 font-medium: text-black hover:bg-black hover:text-white active:bg-black active:text-white"
                   to={"/login"}

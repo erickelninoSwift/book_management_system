@@ -1,10 +1,11 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import axios from "axios";
 export const UserContext = createContext({
   user: null,
   token: null,
   setCurrentUser: () => null,
-  setToken: () => null,
+  chosenUser: null,
   login: true,
   setLogin: () => null,
   myUser: null,
@@ -20,11 +21,11 @@ export const UserContextProvider = ({ children }) => {
   const [token, setToken] = useState(cookies.Token);
   const [login, setLogin] = useState(true);
   const [myUser, setMyUser] = useState(null);
+  const [chosenUser, setChosenUser] = useState(null);
   const value = {
     user: currentUser,
     setCurrentUser,
     token,
-    setToken,
     login,
     setLogin,
     myUser,
@@ -32,8 +33,31 @@ export const UserContextProvider = ({ children }) => {
     cookies,
     setCookie,
     removeCookie,
+    chosenUser,
   };
-  console.log(token);
-  console.log(currentUser);
+
+  useEffect(() => {
+    const verifyRoute = async () => {
+      await axios
+        .get("http://localhost:8080/verify", {
+          headers: { authorization: `Bearer ${cookies.Token}` },
+        })
+        .then((response) => {
+          if (response.data.success) {
+            console.log(response.data.user);
+            setChosenUser(response.data.user);
+          }
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    verifyRoute();
+  }, []);
+  useEffect(() => {
+    setToken(cookies.Token);
+  }, [cookies]);
+
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
