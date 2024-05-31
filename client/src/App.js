@@ -16,23 +16,25 @@ function App() {
   const {
     token,
     chosenUser,
+    cookies,
     removeCookie,
     setAllusersRegisered,
     AlluserRegistered,
   } = useContext(UserContext);
-  const AuthToken = AlluserRegistered ? token : null;
+  const AuthToken = AlluserRegistered ? cookies.Token : null;
+  console.log(AuthToken);
   useEffect(() => {
     const handleFetchAllusers = async () => {
       await axios
         .get("http://localhost:8080/allusers")
         .then((response) => {
-          if (!response.data.success && response.data.errorFound) {
+          if (!response.data.success) {
             removeCookie("User");
             removeCookie("Token");
             setAllusersRegisered(false);
           }
           setAllusersRegisered(response.data.user);
-          navigate("/admin/users");
+          navigate("/admin");
         })
         .catch((err) => {});
     };
@@ -43,9 +45,9 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          {!AuthToken && <Route index element={<Home />} />}
+          {!AuthToken && <Route path="home" element={<Home />} />}
           {AuthToken && (
-            <Route path="/admin" element={<Admin />}>
+            <Route path="admin" element={<Admin />}>
               <Route path="users" element={<Allusers />} />
               <Route path="profile" element={<Profile />} />
               <Route path="addcontact" element={<AddContact />} />

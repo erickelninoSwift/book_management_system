@@ -64,7 +64,7 @@ export const UserContextProvider = ({ children }) => {
     const handleFetchAllusers = async () => {
       await axios
         .get("http://localhost:8080/allusers")
-        .then((response) => setAllusersRegisered(response.data.users))
+        .then((response) => setAllusersRegisered(() => response.data.users))
         .catch((err) => {});
     };
     handleFetchAllusers();

@@ -20,7 +20,10 @@ const NavBar = () => {
   return (
     <header className="mb-2 px-4 shadow">
       <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
-        <Link className="flex items-center text-2xl font-black" to={"/"}>
+        <Link
+          className="flex items-center text-2xl font-black"
+          to={AuthToken ? "admin/users" : "home"}
+        >
           <span className="mr-2 text-3xl text-blue-600">
             <svg
               xmlns="http://www.w3.org/2000/svg"

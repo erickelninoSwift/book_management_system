@@ -1,18 +1,18 @@
 import React, { useState, useContext } from "react";
-import { validation } from "../utils/Validator";
+import { validation } from "../utils/AddContactValidator";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 const AddContact = () => {
   const [name, setName] = useState("");
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
   const [erros, setErros] = useState({});
   const [serversideError, setServerSideError] = useState(null);
   const { setMyUser, setCookie } = useContext(UserContext);
-
+  const [submitMessage, setSubmitMessage] = useState("");
+  const navigate = useNavigate();
   const handleRegisterUser = async (e) => {
     e.preventDefault();
     const myError = validation({ name, email, password });
@@ -31,11 +31,11 @@ const AddContact = () => {
             setpassword("");
             setErros({});
             setMyUser(createUser);
-            toast.success("Account was created", {
+            toast.success("Contact was Added", {
               position: "top-center",
-              autoClose: 2000,
+              autoClose: 3000,
             });
-            navigate("/admin/users");
+            setSubmitMessage("Contact was added with success");
           }
         })
         .catch((erro) => {
@@ -113,8 +113,15 @@ const AddContact = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </div>
+                {erros.name && (
+                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                    {erros.name}
+                  </span>
+                )}
               </div>
               <div className="flex flex-col mb-5">
                 <label
@@ -156,8 +163,15 @@ const AddContact = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
+                {erros.email && (
+                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                    {erros.email}
+                  </span>
+                )}
               </div>
               <div className="flex flex-col mb-6">
                 <label
@@ -201,8 +215,15 @@ const AddContact = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)}
                   />
                 </div>
+                {erros.password && (
+                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                    {erros.password}
+                  </span>
+                )}
               </div>
 
               <div className="flex w-full">
@@ -225,8 +246,9 @@ const AddContact = () => {
                   duration-150
                   ease-in
                 "
+                  onClick={(e) => handleRegisterUser(e)}
                 >
-                  <span className="mr-2 uppercase">Sign Up</span>
+                  <span className="mr-2 uppercase">Submit Contact</span>
                   <span>
                     <svg
                       className="h-6 w-6"
@@ -244,7 +266,18 @@ const AddContact = () => {
               </div>
             </form>
           </div>
+          {serversideError && (
+            <span className="text-[12px] mt-5 p-2 text-red-600 bg-red-100 rounded-md ">
+              {serversideError}
+            </span>
+          )}
+          {submitMessage && (
+            <span className="text-[12px] mt-5 p-2 text-green-700 bg-green-100 rounded-md ">
+              {submitMessage}
+            </span>
+          )}
         </div>
+
         <div className="flex justify-center items-center mt-6">
           <a
             href="#"
