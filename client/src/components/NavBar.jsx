@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  const { login, user, setToken, cookies, setCurrentUser, removeCookie } =
+  const { login, cookies, setCurrentUser, removeCookie, chosenUser } =
     useContext(UserContext);
-  const AuthToken = cookies.Token;
+  const AuthToken = chosenUser ? cookies.Token : null;
   const handleLogout = () => {
     removeCookie("Token");
     removeCookie("User");
@@ -58,7 +58,10 @@ const NavBar = () => {
         >
           <ul className="flex flex-col gap-y-4 sm:flex-row sm:gap-x-8">
             <li className="">
-              <NavLink className="text-gray-600 hover:text-black" to={"/"}>
+              <NavLink
+                className="text-gray-600 hover:text-black"
+                to={AuthToken ? "/admin" : "/home"}
+              >
                 {AuthToken ? "Dashboard" : "Home"}
               </NavLink>
             </li>

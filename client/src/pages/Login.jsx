@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { LoginValidation } from "../utils/LoginValidation";
 import axios from "axios";
@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { setLogin, token, user, setMyUser, setCookie } =
+  const { setLogin, token, user, setMyUser, setCookie, chosenUser } =
     useContext(UserContext);
   const navigate = useNavigate();
   const [erros, setErros] = useState({});
@@ -40,7 +40,7 @@ const Login = () => {
               autoClose: 2000,
             });
 
-            navigate("/");
+            navigate("/admin");
           }
         })
         .catch((erro) => {
@@ -108,7 +108,6 @@ const Login = () => {
                     id="email"
                     type="email"
                     name="email"
-                    disabled={user && token ? true : false}
                     className="
                     text-sm
                     placeholder-gray-500
@@ -161,7 +160,6 @@ const Login = () => {
                     id="password"
                     type="password"
                     name="password"
-                    disabled={user && token ? true : false}
                     className="
                     text-sm
                     placeholder-gray-500
@@ -188,7 +186,6 @@ const Login = () => {
               <div className="flex w-full">
                 <button
                   type="submit"
-                  disabled={user && token ? true : false}
                   className="
                   flex
                   mt-2

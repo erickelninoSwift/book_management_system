@@ -3,6 +3,7 @@ const {
   LoginController,
   SignInController,
   AuthController,
+  getAllusersControllers,
 } = require("../controllers/userControllers");
 const { VerifyCurrentUser } = require("../middleware/VerifyUser");
 const validator = require("express-validator");
@@ -52,5 +53,6 @@ router.post(
 );
 
 router.get("/verify", VerifyCurrentUser, AuthController);
+router.get("/allusers", getAllusersControllers);
 
 module.exports = router;

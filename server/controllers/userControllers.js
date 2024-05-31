@@ -1,6 +1,7 @@
 const UserModel = require("../model/user");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const { response } = require("express");
 const saltRounds = 10;
 require("dotenv").config();
 
@@ -103,4 +104,29 @@ const AuthController = async (request, response) => {
   });
 };
 
-module.exports = { LoginController, SignInController, AuthController };
+const getAllusersControllers = async (request, response) => {
+  try {
+    const AllUsers = await UserModel.find({}).select("-password");
+    if (!AllUsers) {
+      return response.json({
+        message: "There is no user registered Currently",
+      });
+    }
+
+    return response.status(200).json({
+      success: true,
+      users: AllUsers,
+    });
+  } catch (error) {
+    return response.json({
+      detail: `Internal Server Error ${error}`,
+    });
+  }
+};
+
+module.exports = {
+  LoginController,
+  SignInController,
+  AuthController,
+  getAllusersControllers,
+};

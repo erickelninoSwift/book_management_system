@@ -13,6 +13,7 @@ export const UserContext = createContext({
   cookies: null,
   setCookie: () => null,
   removeCookie: () => null,
+  AlluserRegistered: null,
 });
 
 export const UserContextProvider = ({ children }) => {
@@ -22,6 +23,7 @@ export const UserContextProvider = ({ children }) => {
   const [login, setLogin] = useState(true);
   const [myUser, setMyUser] = useState(null);
   const [chosenUser, setChosenUser] = useState(null);
+  const [AlluserRegistered, setAllusersRegisered] = useState(null);
   const value = {
     user: currentUser,
     setCurrentUser,
@@ -34,20 +36,20 @@ export const UserContextProvider = ({ children }) => {
     setCookie,
     removeCookie,
     chosenUser,
+    AlluserRegistered,
   };
-
+  console.log(chosenUser);
   useEffect(() => {
-    const verifyRoute = async () => {
-      await axios
+    const verifyRoute = () => {
+      axios
         .get("http://localhost:8080/verify", {
           headers: { authorization: `Bearer ${cookies.Token}` },
         })
         .then((response) => {
+          console.log(response);
           if (response.data.success) {
-            console.log(response.data.user);
             setChosenUser(response.data.user);
           }
-          console.log(response);
         })
         .catch((error) => {
           console.log(error);
@@ -58,6 +60,15 @@ export const UserContextProvider = ({ children }) => {
   useEffect(() => {
     setToken(cookies.Token);
   }, [cookies]);
+  useEffect(() => {
+    const handleFetchAllusers = async () => {
+      await axios
+        .get("http://localhost:8080/allusers")
+        .then((response) => setAllusersRegisered(response.data.users))
+        .catch((err) => {});
+    };
+    handleFetchAllusers();
+  }, []);
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
