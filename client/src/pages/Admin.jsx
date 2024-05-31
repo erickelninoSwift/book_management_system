@@ -3,13 +3,13 @@ import { UserContext } from "../context/UserContext";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../components/Sidebar";
 const Admin = () => {
-  const { cookies, chosenUser } = useContext(UserContext);
-  const name = cookies.User;
+  const { cookies } = useContext(UserContext);
+  const AuthToken = cookies.Token;
 
   return (
     <>
       <div className="w-[80%] mx-auto my-5">
-        {chosenUser && name && (
+        {AuthToken && (
           <div className="flex">
             <Sidebar />
             {/* Table */}

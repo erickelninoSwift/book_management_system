@@ -7,44 +7,57 @@ import { useNavigate } from "react-router-dom";
 const AddContact = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setpassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
   const [erros, setErros] = useState({});
   const [serversideError, setServerSideError] = useState(null);
-  const { setMyUser, setCookie } = useContext(UserContext);
+  const { cookies, myUser } = useContext(UserContext);
   const [submitMessage, setSubmitMessage] = useState("");
   const navigate = useNavigate();
+
   const handleRegisterUser = async (e) => {
     e.preventDefault();
-    const myError = validation({ name, email, password });
+
+    const myError = validation({ name, email, phone, address });
     setErros(myError);
-    if (!erros.name && !erros.email && !erros.password) {
-      await axios
-        .post("http://localhost:8080/signup", { name, email, password })
-        .then((response) => {
-          const { token, createUser, success } = response.data;
-          if (success) {
-            setServerSideError(null);
-            setCookie("User", createUser.name);
-            setCookie("Token", token);
-            setEmail("");
-            setName("");
-            setpassword("");
-            setErros({});
-            setMyUser(createUser);
-            toast.success("Contact was Added", {
-              position: "top-center",
-              autoClose: 3000,
-            });
-            setSubmitMessage("Contact was added with success");
-          }
-        })
-        .catch((erro) => {
-          return toast.error(`${erro.message}`, {
+    if (!name || !email || !phone || !address) {
+      return;
+    }
+    await axios
+      .post(
+        "http://localhost:8080/addcontact",
+        {
+          name,
+          email,
+          phone,
+          address,
+        },
+        {
+          headers: { Authorization: `Bearer ${cookies.Token}` },
+        }
+      )
+      .then((response) => {
+        const { success } = response.data;
+        if (success) {
+          setServerSideError(null);
+          setEmail("");
+          setName("");
+          setPhone("");
+          setAddress("");
+          setErros({});
+          toast.success("Contact was Added", {
             position: "top-center",
             autoClose: 3000,
           });
+          setSubmitMessage("Contact was added with success");
+        }
+      })
+      .catch((erro) => {
+        return toast.error(`${erro.message}`, {
+          position: "top-center",
+          autoClose: 3000,
         });
-    }
+      });
   };
   return (
     <>
@@ -75,7 +88,7 @@ const AddContact = () => {
             <form action="#">
               <div className="flex flex-col mb-5">
                 <label
-                  for="email"
+                  htmlFor="email"
                   className="mb-1 text-xs tracking-wide text-gray-600"
                 >
                   Name:
@@ -125,7 +138,7 @@ const AddContact = () => {
               </div>
               <div className="flex flex-col mb-5">
                 <label
-                  for="email"
+                  htmlFor="email"
                   className="mb-1 text-xs tracking-wide text-gray-600"
                 >
                   E-Mail Address:
@@ -175,10 +188,10 @@ const AddContact = () => {
               </div>
               <div className="flex flex-col mb-6">
                 <label
-                  for="password"
+                  htmlFor="address"
                   className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
                 >
-                  Password:
+                  Address:
                 </label>
                 <div className="relative">
                   <div
@@ -200,9 +213,9 @@ const AddContact = () => {
                   </div>
 
                   <input
-                    id="password"
-                    type="password"
-                    name="password"
+                    id="address"
+                    type="text"
+                    name="address"
                     className="
                     text-sm
                     placeholder-gray-500
@@ -215,13 +228,65 @@ const AddContact = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setpassword(e.target.value)}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                   />
                 </div>
-                {erros.password && (
+                {erros.address && (
                   <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
-                    {erros.password}
+                    {erros.address}
+                  </span>
+                )}
+              </div>
+              <div className="flex flex-col mb-6">
+                <label
+                  htmlFor="phone"
+                  className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
+                >
+                  Phone:
+                </label>
+                <div className="relative">
+                  <div
+                    className="
+                    inline-flex
+                    items-center
+                    justify-center
+                    absolute
+                    left-0
+                    top-0
+                    h-full
+                    w-10
+                    text-gray-400
+                  "
+                  >
+                    <span>
+                      <i className="fas fa-lock text-blue-500"></i>
+                    </span>
+                  </div>
+
+                  <input
+                    id="phone"
+                    type="text"
+                    name="phone"
+                    className="
+                    text-sm
+                    placeholder-gray-500
+                    pl-10
+                    pr-4
+                    rounded-2xl
+                    border border-gray-400
+                    w-full
+                    py-2
+                    focus:outline-none focus:border-blue-400
+                  "
+                    placeholder="Enter your password"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
+                {erros.phone && (
+                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
+                    {erros.phone}
                   </span>
                 )}
               </div>
@@ -253,9 +318,9 @@ const AddContact = () => {
                     <svg
                       className="h-6 w-6"
                       fill="none"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                     >

@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import IconAdminImage from "../assets/600X600.jpg";
 import { UserContext } from "../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
-import ProfileImage from "../assets/profile.svg";
+
 const Sidebar = () => {
-  const { cookies, chosenUser } = useContext(UserContext);
+  const { cookies } = useContext(UserContext);
   const [activeLink, setActiveLink] = useState(1);
-  const name = cookies.User;
+  const AuthToken = cookies.Token;
   const navigate = useNavigate();
   return (
     <>
@@ -45,7 +45,7 @@ const Sidebar = () => {
               />
               <div>
                 <h2 className="font-medium text-xs md:text-sm text-center text-teal-500">
-                  {name || chosenUser.name}
+                  {cookies.User}
                 </h2>
                 <p className="text-xs text-gray-500 text-center">
                   Administrator

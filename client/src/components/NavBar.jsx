@@ -1,21 +1,15 @@
 import React, { useContext, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  const {
-    login,
-    cookies,
-    setCurrentUser,
-    removeCookie,
+  const navigate = useNavigate();
+  const { login, cookies, removeCookie } = useContext(UserContext);
+  const AuthToken = cookies.Token;
 
-    AlluserRegistered,
-  } = useContext(UserContext);
-  const AuthToken = AlluserRegistered ? cookies.Token : null;
   const handleLogout = () => {
     removeCookie("Token");
     removeCookie("User");
-    setCurrentUser(null);
   };
   return (
     <header className="mb-2 px-4 shadow">

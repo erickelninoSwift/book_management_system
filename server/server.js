@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const UserRoutesControllers = require("./routes/userRoute");
+const ContactRoutesController = require("./routes/contactRoute");
 dotenv.config({
   path: "./.env",
 });
@@ -18,6 +19,7 @@ app.use(express.json());
 // ======================
 
 app.use(UserRoutesControllers);
+app.use(ContactRoutesController);
 
 const start = async () => {
   await connectDB(process.env.MONGOBD_URL)

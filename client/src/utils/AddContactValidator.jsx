@@ -2,8 +2,6 @@ export const validation = ({ name, email, address, phone }) => {
   let errors = {};
 
   const emailRegex = /[a-zA-Z0-9_\.\+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-\.]+/;
-  // const passwordRegex =
-  //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   if (!name) {
     errors.name = "Name should not be empty";
@@ -22,7 +20,7 @@ export const validation = ({ name, email, address, phone }) => {
   }
 
   if (!phone) {
-    errors.phone = "Address field should not be Empty";
+    errors.phone = "Phone field should not be Empty";
   }
 
   return errors;

@@ -82,7 +82,6 @@ const SignInController = async (request, response) => {
       );
       createUser._doc.password = null;
 
-      console.log(createUser);
       return response.json({
         success: true,
         email,

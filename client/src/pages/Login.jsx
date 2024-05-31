@@ -6,8 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { setLogin, token, user, setMyUser, setCookie, chosenUser } =
-    useContext(UserContext);
+  const { setLogin, setMyUser, setCookie } = useContext(UserContext);
   const navigate = useNavigate();
   const [erros, setErros] = useState({});
   const [email, setEmail] = useState("");

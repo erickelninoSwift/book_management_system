@@ -1,14 +1,14 @@
 import React from "react";
 
 const TableRow = ({ currentUser }) => {
-  const { _id, name, email, createdAt } = currentUser;
+  const { _id, name, email, createdAt, phone, address } = currentUser;
   return (
     <tr className="bg-white lg:hover:bg-yellow-100 flex lg:table-row flex-row lg:flex-row flex-wrap lg:flex-no-wrap mb-10 lg:mb-0">
       <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
         <span className="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">
           ID
         </span>
-        #{_id.slice(0, 6).toUpperCase()}
+        #{_id.slice(0, 4).toUpperCase()}
       </td>
       <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b block lg:table-cell relative lg:static">
         <span className="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">
@@ -21,6 +21,18 @@ const TableRow = ({ currentUser }) => {
           EMAIL
         </span>
         {email}
+      </td>
+      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+        <span className="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">
+          PHONE
+        </span>
+        {phone}
+      </td>
+      <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
+        <span className="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">
+          ADDRESS
+        </span>
+        {address}
       </td>
       <td className="w-full lg:w-auto p-3 text-gray-800 text-center border border-b text-center block lg:table-cell relative lg:static">
         <span className="lg:hidden absolute top-0 left-0 bg-blue-200 px-2 py-1 text-xs font-bold uppercase">

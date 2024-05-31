@@ -10,7 +10,7 @@ const VerifyCurrentUser = (request, response, next) => {
     jwt.verify(token, process.env.SECRET_KEY, async (err, payload) => {
       try {
         if (err) {
-          return response.status(401).json({
+          return response.json({
             success: false,
             errorFound: "Unauthorized user",
           });
@@ -18,6 +18,7 @@ const VerifyCurrentUser = (request, response, next) => {
         const { email } = payload;
         const user = await UserModel.findOne({ email }).select("-password");
         request.user = user;
+
         next();
       } catch (erro) {
         return response.json({

@@ -12,34 +12,8 @@ import Allusers from "./pages/Allusers";
 import AddContact from "./pages/AddContact";
 import axios from "axios";
 function App() {
-  const navigate = useNavigate();
-  const {
-    token,
-    chosenUser,
-    cookies,
-    removeCookie,
-    setAllusersRegisered,
-    AlluserRegistered,
-  } = useContext(UserContext);
-  const AuthToken = AlluserRegistered ? cookies.Token : null;
-  console.log(AuthToken);
-  useEffect(() => {
-    const handleFetchAllusers = async () => {
-      await axios
-        .get("http://localhost:8080/allusers")
-        .then((response) => {
-          if (!response.data.success) {
-            removeCookie("User");
-            removeCookie("Token");
-            setAllusersRegisered(false);
-          }
-          setAllusersRegisered(response.data.user);
-          navigate("/admin");
-        })
-        .catch((err) => {});
-    };
-    handleFetchAllusers();
-  }, []);
+  const { cookies } = useContext(UserContext);
+  const AuthToken = cookies.Token;
   return (
     <>
       <ToastContainer />
