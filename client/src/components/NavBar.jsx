@@ -3,9 +3,15 @@ import { NavLink, Link } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  const { login, cookies, setCurrentUser, removeCookie, chosenUser } =
-    useContext(UserContext);
-  const AuthToken = chosenUser ? cookies.Token : null;
+  const {
+    login,
+    cookies,
+    setCurrentUser,
+    removeCookie,
+
+    AlluserRegistered,
+  } = useContext(UserContext);
+  const AuthToken = AlluserRegistered ? cookies.Token : null;
   const handleLogout = () => {
     removeCookie("Token");
     removeCookie("User");
@@ -60,7 +66,7 @@ const NavBar = () => {
             <li className="">
               <NavLink
                 className="text-gray-600 hover:text-black"
-                to={AuthToken ? "/admin" : "/home"}
+                to={AuthToken ? "/admin/users" : "/home"}
               >
                 {AuthToken ? "Dashboard" : "Home"}
               </NavLink>

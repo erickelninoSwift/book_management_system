@@ -1,61 +1,54 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState, useContext } from "react";
+import { validation } from "../utils/Validator";
 import { UserContext } from "../context/UserContext";
-import { LoginValidation } from "../utils/LoginValidation";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-const Login = () => {
-  const { setLogin, token, user, setMyUser, setCookie, chosenUser } =
-    useContext(UserContext);
+const AddContact = () => {
+  const [name, setName] = useState("");
   const navigate = useNavigate();
-  const [erros, setErros] = useState({});
   const [email, setEmail] = useState("");
   const [password, setpassword] = useState("");
+  const [erros, setErros] = useState({});
   const [serversideError, setServerSideError] = useState(null);
+  const { setMyUser, setCookie } = useContext(UserContext);
 
-  const handleLogin = async (e) => {
+  const handleRegisterUser = async (e) => {
     e.preventDefault();
-    const myError = LoginValidation({ email, password });
+    const myError = validation({ name, email, password });
     setErros(myError);
-    if (!erros.email && !erros.password && email && password) {
+    if (!erros.name && !erros.email && !erros.password) {
       await axios
-        .post("http://localhost:8080/login", { email, password })
+        .post("http://localhost:8080/signup", { name, email, password })
         .then((response) => {
-          const { detail, token, success, selectedUser } = response.data;
-          if (detail) {
-            return setServerSideError(detail);
-          }
+          const { token, createUser, success } = response.data;
           if (success) {
-            setMyUser(selectedUser);
-            setCookie("User", selectedUser.name);
-            setCookie("Token", token);
-            setErros({});
             setServerSideError(null);
+            setCookie("User", createUser.name);
+            setCookie("Token", token);
             setEmail("");
+            setName("");
             setpassword("");
-
-            toast.success("Logged in with success", {
+            setErros({});
+            setMyUser(createUser);
+            toast.success("Account was created", {
               position: "top-center",
               autoClose: 2000,
             });
-
             navigate("/admin/users");
           }
         })
         .catch((erro) => {
-          // setServerSideError(erro);
-          toast.error(`${erro}`, {
+          return toast.error(`${erro.message}`, {
             position: "top-center",
             autoClose: 3000,
           });
         });
     }
   };
-
   return (
     <>
-      <div className="h-full mt-[72px] flex flex-col items-center justify-center">
+      <div className="h-[100vh] w-full flex flex-col items-center justify-center bg-gray-100">
         <div
           className="
           flex flex-col
@@ -71,18 +64,61 @@ const Login = () => {
           max-w-md
         "
         >
-          <div className="font-medium self-center text-xl sm:text-3xl text-gray-800">
-            Login Now
+          <div className="font-medium mx-auto self-center text-xl sm:text-3xl w-[600px] text-gray-800">
+            Add Contact
           </div>
           <div className="mt-4 self-center text-xl sm:text-sm text-gray-800">
-            Enter your credentials to get access account
+            Enter your credentials of the user you want to add
           </div>
 
           <div className="mt-10">
             <form action="#">
               <div className="flex flex-col mb-5">
                 <label
-                  htmlFor="email"
+                  for="email"
+                  className="mb-1 text-xs tracking-wide text-gray-600"
+                >
+                  Name:
+                </label>
+                <div className="relative">
+                  <div
+                    className="
+                    inline-flex
+                    items-center
+                    justify-center
+                    absolute
+                    left-0
+                    top-0
+                    h-full
+                    w-10
+                    text-gray-400
+                  "
+                  >
+                    <i className="fas fa-user text-blue-500"></i>
+                  </div>
+
+                  <input
+                    id="email"
+                    type="email"
+                    name="email"
+                    className="
+                    text-sm
+                    placeholder-gray-500
+                    pl-10
+                    pr-4
+                    rounded-2xl
+                    border border-gray-400
+                    w-full
+                    py-2
+                    focus:outline-none focus:border-blue-400
+                  "
+                    placeholder="Enter your name"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col mb-5">
+                <label
+                  for="email"
                   className="mb-1 text-xs tracking-wide text-gray-600"
                 >
                   E-Mail Address:
@@ -111,7 +147,7 @@ const Login = () => {
                     className="
                     text-sm
                     placeholder-gray-500
-                    pl-4
+                    pl-10
                     pr-4
                     rounded-2xl
                     border border-gray-400
@@ -120,19 +156,12 @@ const Login = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-                {erros.email && (
-                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
-                    {erros.email}
-                  </span>
-                )}
               </div>
               <div className="flex flex-col mb-6">
                 <label
-                  htmlFor="password"
+                  for="password"
                   className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
                 >
                   Password:
@@ -163,7 +192,7 @@ const Login = () => {
                     className="
                     text-sm
                     placeholder-gray-500
-                    pl-4
+                    pl-10
                     pr-4
                     rounded-2xl
                     border border-gray-400
@@ -172,15 +201,8 @@ const Login = () => {
                     focus:outline-none focus:border-blue-400
                   "
                     placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setpassword(e.target.value)}
                   />
                 </div>
-                {erros.password && (
-                  <span className="text-[12px] mt-2 p-2 text-red-600 bg-red-100 rounded-md ">
-                    {erros.password}
-                  </span>
-                )}
               </div>
 
               <div className="flex w-full">
@@ -203,16 +225,15 @@ const Login = () => {
                   duration-150
                   ease-in
                 "
-                  onClick={(e) => handleLogin(e)}
                 >
-                  <span className="mr-2 uppercase">Login</span>
+                  <span className="mr-2 uppercase">Sign Up</span>
                   <span>
                     <svg
                       className="h-6 w-6"
                       fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
                     >
@@ -223,11 +244,6 @@ const Login = () => {
               </div>
             </form>
           </div>
-          {serversideError && (
-            <span className="text-[12px] mt-5 p-2 text-red-600 bg-red-100 rounded-md ">
-              {serversideError}
-            </span>
-          )}
         </div>
         <div className="flex justify-center items-center mt-6">
           <a
@@ -240,25 +256,11 @@ const Login = () => {
             font-medium
             text-xs text-center
           "
-          >
-            <span className="ml-2">
-              You do not have an account?
-              <button
-                href="#"
-                className="text-xs ml-2 text-black font-semibold"
-                onClick={(e) => {
-                  e.preventDefault();
-                  return setLogin(false);
-                }}
-              >
-                Register here
-              </button>
-            </span>
-          </a>
+          ></a>
         </div>
       </div>
     </>
   );
 };
 
-export default Login;
+export default AddContact;

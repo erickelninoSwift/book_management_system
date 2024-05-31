@@ -34,7 +34,7 @@ const Register = () => {
               position: "top-center",
               autoClose: 2000,
             });
-            navigate("/admin");
+            navigate("/admin/users");
           }
         })
         .catch((erro) => {

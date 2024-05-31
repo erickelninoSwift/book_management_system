@@ -11,7 +11,8 @@ const VerifyCurrentUser = (request, response, next) => {
       try {
         if (err) {
           return response.status(401).json({
-            detail: "Unauthorized user",
+            success: false,
+            errorFound: "Unauthorized user",
           });
         }
         const { email } = payload;
@@ -20,13 +21,15 @@ const VerifyCurrentUser = (request, response, next) => {
         next();
       } catch (erro) {
         return response.json({
-          detail: `Server side error ${erro}`,
+          success: false,
+          errorFound: `Server side error ${erro}`,
         });
       }
     });
   } else {
     return response.status(403).json({
-      detail: "Forbidden",
+      success: false,
+      errorFound: "Forbidden",
     });
   }
 };

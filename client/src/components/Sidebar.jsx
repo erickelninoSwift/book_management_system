@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import IconAdminImage from "../assets/600X600.jpg";
 import { UserContext } from "../context/UserContext";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProfileImage from "../assets/profile.svg";
 const Sidebar = () => {
   const { cookies, chosenUser } = useContext(UserContext);
+  const [activeLink, setActiveLink] = useState(1);
   const name = cookies.User;
-
+  const navigate = useNavigate();
   return (
     <>
       <div className="max-h-fit max-w-[20%] flex flex-row">
@@ -74,8 +75,14 @@ const Sidebar = () => {
             </div>
             <div id="menu" className="flex flex-col space-y-2">
               <Link
-                to={"profile"}
-                className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out"
+                className={`text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:scale-105 rounded-md transition duration-150 ease-in-out ${
+                  activeLink === 0 ? "bg-cyan-700 text-white" : "none"
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/admin/profile");
+                  return setActiveLink(0);
+                }}
               >
                 <svg
                   className="w-6 h-6 fill-current inline-block"
@@ -93,8 +100,14 @@ const Sidebar = () => {
                 <span className="">Profile</span>
               </Link>
               <Link
-                to={`/admin`}
-                className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
+                className={`text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out ${
+                  activeLink === 1 ? "bg-cyan-700 text-white" : "none"
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/admin/users");
+                  setActiveLink(1);
+                }}
               >
                 <svg
                   className="w-6 h-6 fill-current inline-block"
@@ -108,8 +121,14 @@ const Sidebar = () => {
               </Link>
 
               <Link
-                to={`/admin`}
-                className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
+                className={`text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out ${
+                  activeLink === 2 ? "bg-cyan-700 text-white" : "none"
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/admin/addcontact");
+                  setActiveLink(2);
+                }}
               >
                 <svg
                   className="w-6 h-6 fill-current inline-block"
@@ -123,7 +142,13 @@ const Sidebar = () => {
               </Link>
               <Link
                 to={`/admin`}
-                className="text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out"
+                className={`text-sm font-medium text-gray-700 py-2 px-2 hover:bg-teal-500 hover:text-white hover:text-base rounded-md transition duration-150 ease-in-out ${
+                  activeLink === 3 ? "bg-cyan-700 text-white" : "none"
+                }`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setActiveLink(3);
+                }}
               >
                 <svg
                   className="w-6 h-6 fill-current inline-block"
