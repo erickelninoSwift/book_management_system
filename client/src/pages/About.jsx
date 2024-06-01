@@ -2,7 +2,7 @@ import React from "react";
 import Imagebackground from "../assets/erickelnino.avif";
 const About = () => {
   return (
-    <div className="py-16 w-[1200px] h-full mx-auto bg-slate-50 mt-[32px]">
+    <div className="py-16 w-[1200px] h-full mx-auto bg-green-50 mt-[32px]">
       <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
         <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
           <div className="md:5/12 lg:w-5/12">

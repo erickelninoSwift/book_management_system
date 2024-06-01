@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 const Home = () => {
   return (
     <>
-      <div className="my-10 mx-auto flex w-full max-w-screen-lg flex-col rounded-2xl bg-stone-100 px-4">
-        <p className="mt-20 text-center sm:text-lg font-semibold text-lime-500">
+      <div className="my-10 mx-auto flex w-full max-w-screen-lg flex-col rounded-2xl bg-green-50 px-4">
+        <p className="mt-20 text-center sm:text-lg font-semibold text-lime-400">
           CONTACT MANAGEMENT SYSTEM
         </p>
         <h1 className="mx-auto mt-2 max-w-3xl text-center text-2xl font-semibold leading-tight sm:text-4xl md:text-5xl">

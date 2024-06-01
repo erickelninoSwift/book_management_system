@@ -54,7 +54,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="h-full mt-[72px] flex flex-col items-center justify-center">
+      <div className="h-full mt-[72px] flex flex-col items-center justify-center bg-green-50">
         <div
           className="
           flex flex-col
