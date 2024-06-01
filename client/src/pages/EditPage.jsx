@@ -61,7 +61,7 @@ const EditPage = () => {
   };
   return (
     <>
-      <div className="h-[100vh] w-full flex flex-col items-center justify-center bg-gray-100">
+      <div className="h-[100vh] w-full flex flex-col items-center justify-center bg-green-50">
         <div
           className="
       flex flex-col

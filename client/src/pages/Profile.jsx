@@ -7,7 +7,7 @@ const Profile = () => {
   return (
     <>
       {cookies.Token && (
-        <div className="bg-gray-200 font-sans h-screen w-full flex flex-row justify-center items-center">
+        <div className="bg-green-50 font-sans h-screen w-full flex flex-row justify-center items-center">
           <div className="card w-96 mx-auto bg-white  shadow-xl hover:shadow">
             <img
               className="w-32 mx-auto rounded-full -mt-20 border-8 border-white"
