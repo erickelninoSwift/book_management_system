@@ -3,7 +3,7 @@ import { validation } from "../utils/AddContactValidator";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 const EditPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ const EditPage = () => {
   const { cookies, myUser } = useContext(UserContext);
   const [submitMessage, setSubmitMessage] = useState("");
   const navigate = useNavigate();
-
+  const { id } = useParams();
   const handleRegisterUser = async (e) => {
     e.preventDefault();
 
@@ -24,8 +24,8 @@ const EditPage = () => {
       return;
     }
     await axios
-      .post(
-        "http://localhost:8080/addcontact",
+      .put(
+        `http://localhost:8080/contacts?id=${id}`,
         {
           name,
           email,

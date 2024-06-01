@@ -37,7 +37,7 @@ const Allusers = () => {
       selector: (row) => (
         <>
           <div className="flex gap-2">
-            <Link to={"/admin/edit"}>
+            <Link to={`/admin/edit/${row._id}`}>
               <FaPenToSquare className="w-[20px] h-[20px] text-green-700" />
             </Link>
             <Link>
