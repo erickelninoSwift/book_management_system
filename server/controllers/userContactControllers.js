@@ -26,7 +26,7 @@ const addContactController = async (request, response) => {
   } catch (error) {
     return response.status(500).json({
       success: false,
-      errorFound: error,
+      errorFound: error.message,
     });
   }
 };
@@ -51,7 +51,7 @@ const fetchAllContactController = async (request, response) => {
   } catch (error) {
     return response.status(500).json({
       success: false,
-      errorFound: error,
+      errorFound: error.message,
     });
   }
 };
