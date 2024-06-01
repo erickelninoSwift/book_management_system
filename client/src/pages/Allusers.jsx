@@ -4,6 +4,7 @@ import { UserContext } from "../context/UserContext";
 import DataTable from "react-data-table-component";
 import { CircleLoader } from "react-spinners";
 import { FaRegTrashCan, FaPenToSquare } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 const Allusers = () => {
   const { AlluserRegistered, setAllusersRegisered, cookies } =
     useContext(UserContext);
@@ -36,8 +37,12 @@ const Allusers = () => {
       selector: (row) => (
         <>
           <div className="flex gap-2">
-            <FaPenToSquare className="w-[20px] h-[20px] text-green-700" />
-            <FaRegTrashCan className="w-[20px] h-[20px] text-red-600" />
+            <Link to={"/admin/edit"}>
+              <FaPenToSquare className="w-[20px] h-[20px] text-green-700" />
+            </Link>
+            <Link>
+              <FaRegTrashCan className="w-[20px] h-[20px] text-red-600" />
+            </Link>
           </div>
         </>
       ),

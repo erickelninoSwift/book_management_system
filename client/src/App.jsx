@@ -11,6 +11,7 @@ import Profile from "./pages/Profile";
 import Allusers from "./pages/Allusers";
 import AddContact from "./pages/AddContact";
 import axios from "axios";
+import EditPage from "./pages/EditPage";
 function App() {
   const { cookies } = useContext(UserContext);
   const AuthToken = cookies.Token;
@@ -25,6 +26,7 @@ function App() {
               <Route path="users" element={<Allusers />} />
               <Route path="profile" element={<Profile />} />
               <Route path="addcontact" element={<AddContact />} />
+              <Route path="edit/:id" element={<EditPage />} />
             </Route>
           )}
           <Route path="/about" element={<About />} />
