@@ -13,7 +13,7 @@ const AddContact = () => {
   const [serversideError, setServerSideError] = useState(null);
   const { cookies, myUser } = useContext(UserContext);
   const [submitMessage, setSubmitMessage] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleRegisterUser = async (e) => {
     e.preventDefault();

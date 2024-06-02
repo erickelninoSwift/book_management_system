@@ -26,7 +26,7 @@ function App() {
               <Route path="users" element={<Allusers />} />
               <Route path="profile" element={<Profile />} />
               <Route path="addcontact" element={<AddContact />} />
-              <Route path="edit/:id" element={<EditPage />} />
+              <Route path="edit/:id/:postedBy" element={<EditPage />} />
             </Route>
           )}
           <Route path="/about" element={<About />} />

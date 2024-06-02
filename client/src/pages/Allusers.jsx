@@ -3,12 +3,19 @@ import TableRow from "../components/TableRow";
 import { UserContext } from "../context/UserContext";
 import DataTable from "react-data-table-component";
 import { CircleLoader } from "react-spinners";
+import Alert from "../components/Alert";
 import { FaRegTrashCan, FaPenToSquare } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 const Allusers = () => {
-  const { AlluserRegistered, setAllusersRegisered, cookies } =
-    useContext(UserContext);
+  const {
+    AlluserRegistered,
+    setAllusersRegisered,
+    cookies,
+    alertDelete,
+    setAlertDelete,
+  } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
+  const [itemDelete, setItemDelete] = useState("");
 
   const columns = [
     {
@@ -37,11 +44,17 @@ const Allusers = () => {
       selector: (row) => (
         <>
           <div className="flex gap-2">
-            <Link to={`/admin/edit/${row._id}`}>
+            <Link to={`/admin/edit/${row._id}/${row.postedBy}`}>
               <FaPenToSquare className="w-[20px] h-[20px] text-green-700" />
             </Link>
             <Link>
-              <FaRegTrashCan className="w-[20px] h-[20px] text-red-600" />
+              <FaRegTrashCan
+                className="w-[20px] h-[20px] text-red-600"
+                onClick={() => {
+                  setItemDelete(row._id);
+                  setAlertDelete(!alertDelete);
+                }}
+              />
             </Link>
           </div>
         </>
@@ -68,25 +81,32 @@ const Allusers = () => {
       }
 
       setAllusersRegisered(() => contacts);
-      console.log(contacts);
       setEmptyMessage(null);
       setLoading(false);
     };
     handleFetchAllContact();
   }, []);
+
   return (
-    <div className="bg-green-50 w-full p-10">
-      <h3 className="mt-6 text-xl ml-5">My Contacts</h3>
-      {loading ? (
-        <CircleLoader className="w-full h-[100%] mx-auto p-[20px] mt-[100px]" />
-      ) : (
-        <div className="mt-5">
-          {AlluserRegistered && (
-            <DataTable columns={columns} data={AlluserRegistered} pagination />
-          )}
-        </div>
-      )}
-    </div>
+    <>
+      <div className="bg-green-50 w-full p-10">
+        <h3 className="mt-6 text-xl ml-5">My Contacts</h3>
+        {loading ? (
+          <CircleLoader className="w-full h-[100%] mx-auto p-[20px] mt-[100px]" />
+        ) : (
+          <div className="mt-5">
+            {AlluserRegistered && (
+              <DataTable
+                columns={columns}
+                data={AlluserRegistered}
+                pagination
+              />
+            )}
+          </div>
+        )}
+      </div>
+      {alertDelete && <Alert itemTodeleteID={itemDelete} />}
+    </>
   );
 };
 

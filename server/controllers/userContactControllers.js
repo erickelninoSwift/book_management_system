@@ -1,3 +1,4 @@
+const contact = require("../model/contact");
 const ContactModel = require("../model/contact");
 
 const addContactController = async (request, response) => {
@@ -56,4 +57,76 @@ const fetchAllContactController = async (request, response) => {
   }
 };
 
-module.exports = { addContactController, fetchAllContactController };
+const updateDataController = async (request, response) => {
+  const { id, postedBy } = request.query;
+  const currentUserID = request.user._id;
+  if (!id || (!postedBy && currentUserID !== postedBy)) {
+    return response.json({
+      success: false,
+      message: "Error user logged In ",
+    });
+  }
+  const { name, email, address, phone } = request.body;
+  const getUserContact = await ContactModel.findOneAndUpdate(
+    { _id: id, postedBy },
+    {
+      name,
+      email,
+      phone,
+      address,
+    }
+  );
+  await getUserContact.save().then(() => {
+    return response.json({
+      success: true,
+      message: "Contact was Updated with Succees",
+    });
+  });
+};
+
+const DeleteContactController = async (request, response) => {
+  const { id } = request.params;
+  if (!id) {
+    return response.json({
+      success: false,
+      message: "Please provide id item to delete",
+    });
+  }
+  try {
+    const deleteItem = await ContactModel.findByIdAndDelete({ _id: id });
+    if (!deleteItem) {
+      return response.json({
+        success: false,
+        message: "Data to delete was not found",
+      });
+    }
+
+    const fetchRemainContacts = await ContactModel.find({
+      postedBy: request.user._id,
+    });
+    if (!fetchRemainContacts) {
+      return response.status(404).json({
+        success: false,
+        message: "Current User have no contacts",
+      });
+    }
+
+    return response.status(201).json({
+      success: true,
+      message: "Data was deleted",
+      contacts: fetchRemainContacts,
+    });
+  } catch (error) {
+    return response.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  addContactController,
+  fetchAllContactController,
+  updateDataController,
+  DeleteContactController,
+};

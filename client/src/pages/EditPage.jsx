@@ -1,20 +1,22 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { validation } from "../utils/AddContactValidator";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 const EditPage = () => {
+  const { id, postedBy } = useParams();
+  const { cookies, AlluserRegistered } = useContext(UserContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [erros, setErros] = useState({});
   const [serversideError, setServerSideError] = useState(null);
-  const { cookies, myUser } = useContext(UserContext);
+
   const [submitMessage, setSubmitMessage] = useState("");
   const navigate = useNavigate();
-  const { id } = useParams();
+
   const handleRegisterUser = async (e) => {
     e.preventDefault();
 
@@ -25,7 +27,7 @@ const EditPage = () => {
     }
     await axios
       .put(
-        `http://localhost:8080/contacts?id=${id}`,
+        `http://localhost:8080/contacts?id=${id}&postedBy=${postedBy}`,
         {
           name,
           email,
@@ -37,7 +39,7 @@ const EditPage = () => {
         }
       )
       .then((response) => {
-        const { success } = response.data;
+        const { success, message } = response.data;
         if (success) {
           setServerSideError(null);
           setEmail("");
@@ -45,20 +47,31 @@ const EditPage = () => {
           setPhone("");
           setAddress("");
           setErros({});
-          toast.success("Contact was Added", {
+          toast.success(message, {
             position: "top-center",
-            autoClose: 3000,
+            autoClose: 2000,
           });
-          setSubmitMessage("Contact was added with success");
+          setSubmitMessage("Contact was updated with success");
+          navigate("/admin/users");
         }
       })
       .catch((erro) => {
         return toast.error(`${erro.message}`, {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 2000,
         });
       });
   };
+  useEffect(() => {
+    const selectedContact = AlluserRegistered.find((user) => user._id === id);
+    const { address, email, name, phone } = selectedContact;
+    if (selectedContact) {
+      setName(name);
+      setEmail(email);
+      setAddress(address);
+      setPhone(phone);
+    }
+  }, [id]);
   return (
     <>
       <div className="h-[100vh] w-full flex flex-col items-center justify-center bg-green-50">
@@ -117,7 +130,7 @@ const EditPage = () => {
                     className="
                 text-sm
                 placeholder-gray-500
-                pl-10
+                pl-4
                 pr-4
                 rounded-2xl
                 border border-gray-400
@@ -167,7 +180,7 @@ const EditPage = () => {
                     className="
                 text-sm
                 placeholder-gray-500
-                pl-10
+                pl-4
                 pr-4
                 rounded-2xl
                 border border-gray-400
@@ -219,7 +232,7 @@ const EditPage = () => {
                     className="
                 text-sm
                 placeholder-gray-500
-                pl-10
+                pl-4
                 pr-4
                 rounded-2xl
                 border border-gray-400
@@ -271,7 +284,7 @@ const EditPage = () => {
                     className="
                 text-sm
                 placeholder-gray-500
-                pl-10
+                pl-4
                 pr-4
                 rounded-2xl
                 border border-gray-400

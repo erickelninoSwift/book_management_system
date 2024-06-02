@@ -3,7 +3,7 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { login, cookies, removeCookie } = useContext(UserContext);
   const AuthToken = cookies.Token;
 

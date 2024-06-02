@@ -15,6 +15,8 @@ export const UserContext = createContext({
   removeCookie: () => null,
   AlluserRegistered: null,
   setAllusersRegisered: () => null,
+  alertDelete: false,
+  setAlertDelete: () => null,
 });
 
 export const UserContextProvider = ({ children }) => {
@@ -23,6 +25,7 @@ export const UserContextProvider = ({ children }) => {
   const [token, setToken] = useState(cookies.Token);
   const [login, setLogin] = useState(true);
   const [myUser, setMyUser] = useState(null);
+  const [alertDelete, setAlertDelete] = useState(false);
 
   const [AlluserRegistered, setAllusersRegisered] = useState(null);
   const navigate = useNavigate();
@@ -39,6 +42,8 @@ export const UserContextProvider = ({ children }) => {
     removeCookie,
     AlluserRegistered,
     setAllusersRegisered,
+    alertDelete,
+    setAlertDelete,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
