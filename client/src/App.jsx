@@ -4,13 +4,12 @@ import Home from "./pages/Home";
 import AuthenticationPage from "./pages/AuthenticationPage";
 import About from "./pages/About";
 import Admin from "./pages/Admin";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "./context/UserContext";
 import { ToastContainer } from "react-toastify";
 import Profile from "./pages/Profile";
 import Allusers from "./pages/Allusers";
 import AddContact from "./pages/AddContact";
-import axios from "axios";
 import EditPage from "./pages/EditPage";
 function App() {
   const { cookies } = useContext(UserContext);

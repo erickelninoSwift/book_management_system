@@ -3,13 +3,16 @@ import { NavLink, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 
 const NavBar = () => {
-  // const navigate = useNavigate();
-  const { login, cookies, removeCookie } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { login, cookies, removeCookie, setMyUser, setCookie } =
+    useContext(UserContext);
   const AuthToken = cookies.Token;
 
   const handleLogout = () => {
     removeCookie("Token");
     removeCookie("User");
+    setMyUser(null);
+    navigate("/login");
   };
   return (
     <header className="mb-2 px-4 shadow">
