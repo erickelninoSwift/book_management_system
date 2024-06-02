@@ -11,26 +11,34 @@ import Profile from "./pages/Profile";
 import Allusers from "./pages/Allusers";
 import AddContact from "./pages/AddContact";
 import EditPage from "./pages/EditPage";
+import ProtectedRoutes from "./components/ProtectedRoutes";
+import NotFound from "./pages/NotFound";
 function App() {
-  const { cookies } = useContext(UserContext);
-  const AuthToken = cookies.Token;
   return (
     <>
       <ToastContainer />
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          {!AuthToken && <Route path="home" element={<Home />} />}
-          {AuthToken && (
-            <Route path="admin" element={<Admin />}>
-              <Route path="users" element={<Allusers />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="addcontact" element={<AddContact />} />
-              <Route path="edit/:id/:postedBy" element={<EditPage />} />
-            </Route>
-          )}
+          <Route path="home" element={<Home />} />
+
+          <Route
+            path="admin"
+            element={
+              <ProtectedRoutes>
+                <Admin />
+              </ProtectedRoutes>
+            }
+          >
+            <Route path="users" element={<Allusers />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="addcontact" element={<AddContact />} />
+            <Route path="edit/:id/:postedBy" element={<EditPage />} />
+          </Route>
+
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<AuthenticationPage />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

@@ -12,7 +12,6 @@ const NavBar = () => {
     removeCookie("Token");
     removeCookie("User");
     setMyUser(null);
-    navigate("/login");
   };
   return (
     <header className="mb-2 px-4 shadow">
