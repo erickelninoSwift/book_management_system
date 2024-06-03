@@ -4,7 +4,7 @@ import { UserContext } from "../context/UserContext";
 const ProtectedRoutes = ({ children }) => {
   const { cookies } = useContext(UserContext);
 
-  return cookies.Token ? children : <Navigate to={"/login"} replace />;
+  return cookies.Token ? children : <Navigate to={"/"} replace />;
 };
 
 export default ProtectedRoutes;

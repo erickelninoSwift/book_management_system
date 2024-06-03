@@ -18,7 +18,7 @@ const NavBar = () => {
       <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 sm:flex-row sm:items-center sm:justify-between">
         <Link
           className="flex items-center text-2xl font-black"
-          to={AuthToken ? "admin/users" : "home"}
+          to={AuthToken ? "admin/users" : "/"}
         >
           <span className="mr-2 text-3xl text-blue-600">
             <svg
@@ -65,7 +65,7 @@ const NavBar = () => {
             <li className="">
               <NavLink
                 className="text-gray-600 hover:text-black"
-                to={AuthToken ? "/admin/users" : "/home"}
+                to={AuthToken ? "/admin/users" : "/"}
               >
                 {AuthToken ? "Dashboard" : "Home"}
               </NavLink>

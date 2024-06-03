@@ -14,7 +14,7 @@ const Footer = () => {
 
             <div className="flex mt-3 -mx-2 sm:mt-0">
               <Link
-                to={"/home"}
+                to={"/"}
                 className="mx-2 text-sm text-black transition-colors duration-300 hover:text-black dark:hover:text-gray-300"
                 aria-label="Reddit"
               >

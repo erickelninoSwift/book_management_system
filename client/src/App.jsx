@@ -19,7 +19,7 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<AppLayout />}>
-          <Route path="home" element={<Home />} />
+          <Route index element={<Home />} />
 
           <Route
             path="admin"
